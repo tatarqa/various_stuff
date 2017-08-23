@@ -32,16 +32,3 @@ while 1:
             i+=1
         print '%d packets sent'%(i)
         activeSniff = True
-
-            # ap=fm[54:59]
-            # print ap
-            # print ap.encode('hex')
-            # print ap.encode('hex')
-            # print struct.unpack("!6s", ap)
-            # print fm[63].encode('hex')
-
-            # if fm[26] == "\x80" :#cekuje obsah 27. bajtu,konkretne jestli obsahuje 8 bitovou hodnotu (beacon frame)
-            #    if fm[36:42] not in ap_list:
-            #        ap_list.append(fm[36:42])
-            #        a = ord(fm[63])
-            #        print "SSID -> ",fm[64:64 +a],"-- BSSID -> ", fm[36:42].encode('hex'),"-- Channel -> ", ord(fm[64 +a+12])
