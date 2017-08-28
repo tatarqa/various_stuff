@@ -20,8 +20,9 @@ FLAGS_END = 22
 
 
 def analyze(freq,pktType, pkt, advset):
-    FREQUENCY_CURRENT = 2402
-    FREQUENCY_WIDTH = 19
+    frequency_current = 2402
+    FREQUENCY_WIDTH = 19#its 20 actually
+    #http://niviuk.free.fr/wifi_band.php
     FREQUENCY_HOP_1 = 5
     FREQUENCY_HOP_2 = 20
 
@@ -29,16 +30,16 @@ def analyze(freq,pktType, pkt, advset):
     for channel in itr.chain(range(1, 14), range(36, 68, 4), range(100, 148, 4), range(149, 169, 4)):
         if channel != 1:
             if channel < 14:
-                FREQUENCY_CURRENT = FREQUENCY_CURRENT + FREQUENCY_HOP_1
+                frequency_current = frequency_current + FREQUENCY_HOP_1
             else:
-                FREQUENCY_CURRENT = FREQUENCY_CURRENT + FREQUENCY_HOP_2
+                frequency_current = frequency_current + FREQUENCY_HOP_2
                 if channel == 149:
-                    FREQUENCY_CURRENT += 5
+                    frequency_current += 5
                 elif channel == 100:
-                    FREQUENCY_CURRENT += 160
+                    frequency_current += 160
                 elif channel == 36:
-                    FREQUENCY_CURRENT += 2688
-        if freq in range(FREQUENCY_CURRENT, FREQUENCY_CURRENT + FREQUENCY_WIDTH):
+                    frequency_current += 2688
+        if freq in range(frequency_current, frequency_current + FREQUENCY_WIDTH):
             foundChannel = channel
             break
     print "=============================================\n" \
