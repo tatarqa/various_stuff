@@ -40,6 +40,7 @@ def analyze(freq,pktType, pkt, advset):
                     FREQUENCY_CURRENT += 2688
         if freq in range(FREQUENCY_CURRENT, FREQUENCY_CURRENT + FREQUENCY_WIDTH):
             foundChannel = channel
+            break
     print "=============================================\n" \
           "#%s#\nDEST. ADDR: %s\nSOURCE. ADDR: %s\nBSSID mac: %s" % \
           (pktType, dMac.encode('hex'), sMac.encode('hex'), bssidMac.encode('hex'))
