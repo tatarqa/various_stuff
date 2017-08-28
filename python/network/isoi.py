@@ -28,7 +28,7 @@ def analyze(freq,pktType, pkt, advset):
     dur, dMac, sMac, bssidMac = struct.unpack("!H6s6s6s", pkt[2:FLAGS_END])
     for channel in itr.chain(range(1, 14), range(36, 68, 4), range(100, 148, 4), range(149, 169, 4)):
         if channel != 1:
-            if channel < 14 and channel > 1:
+            if channel < 14:
                 FREQUENCY_CURRENT = FREQUENCY_CURRENT + FREQUENCY_HOP_1
             else:
                 FREQUENCY_CURRENT = FREQUENCY_CURRENT + FREQUENCY_HOP_2
