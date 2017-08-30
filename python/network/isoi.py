@@ -4,7 +4,7 @@ import itertools as itr
 
 # import binascii
 
-activeAps = []
+initVectors = []
 IFACE = raw_input('!! >> type interface in monitor mode --> ')
 PROBE_REQ = "40"  # "\x40"
 PROBE_RESP = "50"
@@ -13,14 +13,19 @@ ASOC_RESP = "10"
 BEACON="80"
 EAPOL="88"
 
+HEADERLEN1=38
+HEADERLEN2=44
+
+
+
 sniff = socket(AF_PACKET, SOCK_RAW, 3)
 sniff.bind((IFACE, 0x0003))
 
 FIXED_PARAMETERS = 12
 FIXED_PARAMETERS_ARESP = 6
 FIXED_PARAMETERS_AREQ=4
-FLAGS_END = 61-38-1#first 38 bytes are skipped 1 byte for zero index
-
+FLAGS_END = 61-38-1
+KEYPARAMS=21
 
 def analyze(freq, pktType, pkt, advset):
     frequency_current = 2402
@@ -58,32 +63,40 @@ def analyze(freq, pktType, pkt, advset):
                 ssid = "broadcast"
             print "%s is looking for %s on channel %d" % (sMac.encode('hex'), ssid, foundChannel)
     else:
-        print "eapoling"
+        kbody = pkt[FLAGS_END:FLAGS_END + KEYPARAMS]
+        print "key lenght %d"%int(kbody[-2:].encode('hex'), 16)
+
+
 
 
 while 1:
-    freq = struct.unpack("h", sniff.recv(100)[26:28])
-    pkt = sniff.recv(800)[38:]
+    pkt = sniff.recv(800)[0:]
+    hLenght = struct.unpack("h", pkt[2:4])[0]
+    if hLenght==HEADERLEN1:
+        freq = struct.unpack("h", pkt[26:28])[0]
+    elif hLenght==HEADERLEN2:
+        freq = struct.unpack("h", pkt[18:20])[0]
+    pkt = pkt[hLenght:]
     type = pkt[:1].encode('hex')
     if type == PROBE_RESP:
         advset = FLAGS_END + FIXED_PARAMETERS + 2  # seq number
-        analyze(freq[0], "PRESP", pkt, advset)
+        analyze(freq, "PRESP", pkt, advset)
 
     elif type == PROBE_REQ:
         advset = FLAGS_END + 2
-        analyze(freq[0], "PREQ", pkt, advset)
+        analyze(freq, "PREQ", pkt, advset)
 
     elif type == ASOC_REQ:
         advset = FLAGS_END+FIXED_PARAMETERS_AREQ + 2
-        analyze(freq[0], "AREQ", pkt, advset)
+        analyze(freq, "AREQ", pkt, advset)
 
     elif type == ASOC_RESP:
         advset = FLAGS_END + FIXED_PARAMETERS_ARESP + 2
-        analyze(freq[0], "ARESP", pkt, advset)
+        analyze(freq, "ARESP", pkt, advset)
     elif type == EAPOL:
         advset = ""
-        analyze(freq[0], "EAPOL", pkt, advset)
+        analyze(freq, "EAPOL", pkt, advset)
     elif type==BEACON:
         continue
     #else:
-        #print ':'.join(x.encode('hex') for x in pkt)
+     #   print str(type)
