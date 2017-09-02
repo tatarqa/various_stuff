@@ -34,7 +34,7 @@ def getInfo(ipaddr, userAgent, proxz, hostname):
 import struct
 import os
 
-# os.popen("sudo ifconfig eth0 promisc")
+os.popen("sudo ifconfig eth0 promisc")
 userAgent = [('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1')]
 proxz = {}
 source_ips = []
