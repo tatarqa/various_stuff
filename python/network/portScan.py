@@ -9,6 +9,7 @@ WORKERS = 50
 PORT_MAX = 1000
 RAT = PORT_MAX / WORKERS
 tgt = raw_input("--> ")
+print "e.g. need.weed.global"
 tgtIP = gethostbyname(tgt)
 start_time = time.time()
 

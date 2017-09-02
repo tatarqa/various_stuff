@@ -99,4 +99,4 @@ while 1:
     elif type==BEACON:
         continue
     #else:
-     #   print str(type)
+     #   print ':'.join(x.encode('hex') for x in pkt)
