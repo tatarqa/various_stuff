@@ -6,15 +6,13 @@ from urlparse import urlparse
 import sys
 import Queue
 
+
 def clear(itm):
     try:
         links.remove(itm)
     except:
         n = i = c = 1
     checked_links.append(itm)
-
-
-
 
 
 def gatherLinks(tgt):
@@ -45,7 +43,7 @@ def gatherLinks(tgt):
         if known_domain not in drupal_sites:
             drupal_sites.append(known_domain)
             dumba = open("drupal_domains.txt", 'a')
-            dumba.write(known_domain+'\n')
+            dumba.write(known_domain + '\n')
             dumba.close()
     parsed_page = BeautifulSoup(page, 'html.parser')
     for anchor in parsed_page.find_all('a'):
@@ -64,10 +62,10 @@ def gatherLinks(tgt):
                 blumba.write(domain + '\n')
                 blumba.close()
 
-
     clear(tgt)
 
-def threadDist(q,tgt):
+
+def threadDist(q, tgt):
     q.put(gatherLinks(tgt))
 
 
@@ -95,15 +93,10 @@ try:
     while len(links):
         print str(len(threads))
         for link in links:
-            t = threading.Thread(target=threadDist, args=(q,link))
+            t = threading.Thread(target=threadDist, args=(q, link))
             threads.append(t)
             t.start()
-            #if len(threads) > 300:
-            #    for t in threads:
-             #       if not t.isAlive():
-            #            t.handled = True
-            #        else:
-             #           t.join()
+
 
 except KeyboardInterrupt:
     sys.exit()
