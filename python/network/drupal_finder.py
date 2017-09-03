@@ -43,7 +43,7 @@ def gatherLinks(tgt):
         if known_domain not in drupal_sites:
             drupal_sites.append(known_domain)
             dumba = open("drupal_domains.txt", 'a')
-            dumba.write(str(time.time() - start_time)+' '+known_domain + '\n')
+            dumba.write(str(time.time() - start_time)+' '+known_domain.decode('utf-8', 'ignore') + '\n')
             dumba.close()
     parsed_page = BeautifulSoup(page, 'html.parser')
     for anchor in parsed_page.find_all('a'):
@@ -59,7 +59,7 @@ def gatherLinks(tgt):
                 links.append(final_link)
                 domains.append(domain)
                 blumba = open("domains.txt", 'a')
-                blumba.write(domain + '\n')
+                blumba.write(domain.decode('utf-8', 'ignore') + '\n')
                 blumba.close()
     clear(tgt)
 
