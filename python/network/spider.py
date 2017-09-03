@@ -10,11 +10,11 @@ def clear(itm):
     try:
         links.remove(itm)
     except:
-        n=i=c=1
+        n = i = c = 1
     checked_links.append(itm)
 
+
 def gatherLinks(tgt):
-    print tgt
     final_link = ""
     userAgent = [('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1')]
     proxz = {}
@@ -33,6 +33,7 @@ def gatherLinks(tgt):
         clear(tgt)
         return
     if 'Sun, 19 Nov 1978 05:00:00 GMT' in page._headers.dict.viewvalues():
+
         unknown_domain_format = urlparse(tgt).netloc
         if unknown_domain_format.startswith('www.'):
             known_domain = unknown_domain_format[4:]
@@ -53,8 +54,9 @@ def gatherLinks(tgt):
             if not final_link in links and not final_link in checked_links and not domain in domains:
                 links.append(final_link)
                 domains.append(domain)
-    clear(tgt)
 
+
+    clear(tgt)
 
 
 print "[-] enter 1 for http, enter 2 for https: "
@@ -71,16 +73,20 @@ while 1:
         choice = raw_input(">")
 print "\n[-] enter domain name e.g. %sgoogle.com" % prefx
 links = []
-domains=[]
-drupal_sites=[]
+domains = []
+drupal_sites = []
 checked_links = []
+threads = []
 links.append(prefx + raw_input('>' + prefx + ""))
 try:
     while len(links):
         for link in links:
             t = threading.Thread(target=gatherLinks, args=(link,))
+            threads.append(t)
             t.start()
-        t.join()
+            if len(threads) > 300:
+                t.join()
+
 except KeyboardInterrupt:
     print drupal_sites
     sys.exit()
