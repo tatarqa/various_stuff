@@ -1,4 +1,4 @@
-#http://3564020356.org/ 
+#http://3564020356.org/ deserve
 txt1="MAL TIRRUEZF CR MAL RKZYIOL EX MAL OIY UAE RICF MAL ACWALRM DYEUPLFWL CR ME DYEU MAIM UL IZL RKZZEKYFLF GH OHRMLZH"
 knoiwnSHit={"a":"h","m":"t","l":"e","c":"i","r":"s","w":"g","i":"a","f":"d","k":"u","z":"r","e":"o","y":"n","t":"p","u":"w","o":"m","x":"f","d":"k","p":"l",}
 rslt=""
