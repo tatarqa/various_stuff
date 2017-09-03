@@ -39,7 +39,7 @@ userAgent = [('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/
 proxz = {}
 source_ips = []
 s = socket(PF_PACKET, SOCK_RAW, ntohs(0x0800))
-LOCALHOST='192.168.0.1'
+LOCALHOST=['192.168.0.1','127.0.0.1']
 while 1:
     pkt = s.recvfrom(2048)
     eth_head = pkt[0][:14]
@@ -49,7 +49,7 @@ while 1:
     neco, source_ip, dest_ip = struct.unpack("!12s4s4s", ip_head)
     source_port, dest_port, neco2, flag, neco3 = struct.unpack("!HH9ss6s", tcp_head)
     source_ip = inet_ntoa(source_ip)
-    if not source_ip in source_ips and source_ip != LOCALHOST:
+    if not source_ip in source_ips and source_ip not in LOCALHOST:
         source_ips.append(source_ip)
         try:
             hostname = gethostbyaddr(source_ip)[0]
