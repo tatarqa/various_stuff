@@ -1,6 +1,5 @@
 import mechanize
 import cookielib
-from socket import *
 from bs4 import BeautifulSoup
 import threading
 
@@ -36,10 +35,9 @@ def gatherLinks(tgt):
             except:
                 continue
     except:
-        to=do='w'
+        to = do = 'w'
 
     checked_links.append(tgt)
-
 
 
 print "[-] enter 1 for http, enter 2 for https: "
@@ -56,12 +54,10 @@ while 1:
         choice = raw_input(">")
 print "\n[-] enter domain name e.g. %sgoogle.com" % prefx
 links = []
-checked_links=[]
+checked_links = []
 links.append(prefx + raw_input('>' + prefx + ""))
 while len(links):
     for link in links:
         t = threading.Thread(target=gatherLinks, args=(link,))
         t.start()
     t.join()
-
-
