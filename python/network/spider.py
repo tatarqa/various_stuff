@@ -2,7 +2,16 @@ import mechanize
 import cookielib
 from bs4 import BeautifulSoup
 import threading
+from urlparse import urlparse
+import sys
 
+
+def clear(itm):
+    try:
+        links.remove(itm)
+    except:
+        n=i=c=1
+    checked_links.append(itm)
 
 def gatherLinks(tgt):
     print tgt
@@ -19,25 +28,33 @@ def gatherLinks(tgt):
     cookie_jar = cookielib.LWPCookieJar()
     browser.set_cookiejar(cookie_jar)
     try:
-
         page = browser.open(tgt)
-        parsed_page = BeautifulSoup(page, 'html.parser')
-        for anchor in parsed_page.find_all('a'):
-            startLink = anchor.get('href')
-            try:
-                if startLink[:4] == "http":
-                    final_link = startLink
-                elif startLink[:1] == "/":
-                    final_link = tgt + startLink
-                if not final_link in links and not final_link in checked_links:
-                    links.append(final_link)
-                links.remove(tgt)
-            except:
-                continue
     except:
-        to = do = 'w'
+        clear(tgt)
+        return
+    if 'Sun, 19 Nov 1978 05:00:00 GMT' in page._headers.dict.viewvalues():
+        unknown_domain_format = urlparse(tgt).netloc
+        if unknown_domain_format.startswith('www.'):
+            known_domain = unknown_domain_format[4:]
+        else:
+            known_domain = unknown_domain_format
+        if known_domain not in drupal_sites:
+            drupal_sites.append(known_domain)
+    parsed_page = BeautifulSoup(page, 'html.parser')
+    for anchor in parsed_page.find_all('a'):
+        startLink = anchor.get('href')
+        if startLink:
+            if startLink[:4] == "http":
+                final_link = startLink
+            elif startLink[:1] == "/":
+                final_link = tgt + startLink
+            parsedLink = urlparse(final_link)
+            domain = parsedLink.netloc
+            if not final_link in links and not final_link in checked_links and not domain in domains:
+                links.append(final_link)
+                domains.append(domain)
+    clear(tgt)
 
-    checked_links.append(tgt)
 
 
 print "[-] enter 1 for http, enter 2 for https: "
@@ -54,10 +71,16 @@ while 1:
         choice = raw_input(">")
 print "\n[-] enter domain name e.g. %sgoogle.com" % prefx
 links = []
+domains=[]
+drupal_sites=[]
 checked_links = []
 links.append(prefx + raw_input('>' + prefx + ""))
-while len(links):
-    for link in links:
-        t = threading.Thread(target=gatherLinks, args=(link,))
-        t.start()
-    t.join()
+try:
+    while len(links):
+        for link in links:
+            t = threading.Thread(target=gatherLinks, args=(link,))
+            t.start()
+        t.join()
+except KeyboardInterrupt:
+    print drupal_sites
+    sys.exit()
