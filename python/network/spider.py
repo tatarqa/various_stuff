@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import threading
 from urlparse import urlparse
 import sys
-
+import Queue
 
 def clear(itm):
     try:
@@ -12,6 +12,9 @@ def clear(itm):
     except:
         n = i = c = 1
     checked_links.append(itm)
+
+
+
 
 
 def gatherLinks(tgt):
@@ -41,6 +44,9 @@ def gatherLinks(tgt):
             known_domain = unknown_domain_format
         if known_domain not in drupal_sites:
             drupal_sites.append(known_domain)
+            dumba = open("drupal_domains.txt", 'a')
+            dumba.write(known_domain+'\n')
+            dumba.close()
     parsed_page = BeautifulSoup(page, 'html.parser')
     for anchor in parsed_page.find_all('a'):
         startLink = anchor.get('href')
@@ -54,9 +60,15 @@ def gatherLinks(tgt):
             if not final_link in links and not final_link in checked_links and not domain in domains:
                 links.append(final_link)
                 domains.append(domain)
+                blumba = open("domains.txt", 'a')
+                blumba.write(domain + '\n')
+                blumba.close()
 
 
     clear(tgt)
+
+def threadDist(q,tgt):
+    q.put(gatherLinks(tgt))
 
 
 print "[-] enter 1 for http, enter 2 for https: "
@@ -78,15 +90,20 @@ drupal_sites = []
 checked_links = []
 threads = []
 links.append(prefx + raw_input('>' + prefx + ""))
+q = Queue.Queue()
 try:
     while len(links):
+        print str(len(threads))
         for link in links:
-            t = threading.Thread(target=gatherLinks, args=(link,))
+            t = threading.Thread(target=threadDist, args=(q,link))
             threads.append(t)
             t.start()
-            if len(threads) > 300:
-                t.join()
+            #if len(threads) > 300:
+            #    for t in threads:
+             #       if not t.isAlive():
+            #            t.handled = True
+            #        else:
+             #           t.join()
 
 except KeyboardInterrupt:
-    print drupal_sites
     sys.exit()
