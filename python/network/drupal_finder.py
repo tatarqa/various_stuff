@@ -57,8 +57,9 @@ def gatherLinks(tgt):
             parsedLink = urlparse(final_link)
             domain = parsedLink.netloc
             dots=domain.count('.')
-            if dots > 2:
-                domain=domain.rsplit('.',2)
+            if dots > 2 or not domain.startswith('www.'):
+                #domain=domain.rsplit('.',2)
+                domain = domain.rsplit('.', 1)
                 domain=domain[0]
             if not final_link in links and not final_link in checked_links and not domain in domains and domain.decode('utf-8', 'ignore').endswith('.cz'):
                 links.append(final_link)
