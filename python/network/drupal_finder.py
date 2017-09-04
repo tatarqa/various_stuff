@@ -8,6 +8,7 @@ import Queue
 import time
 
 
+
 def clear(itm):
     try:
         links.remove(itm)
@@ -55,7 +56,11 @@ def gatherLinks(tgt):
                 final_link = tgt + startLink
             parsedLink = urlparse(final_link)
             domain = parsedLink.netloc
-            if not final_link in links and not final_link in checked_links and not domain in domains:
+            dots=domain.count('.')
+            if dots > 2:
+                domain=domain.rsplit('.',2)
+                domain=domain[0]
+            if not final_link in links and not final_link in checked_links and not domain in domains and domain.decode('utf-8', 'ignore').endswith('.cz'):
                 links.append(final_link)
                 domains.append(domain)
                 blumba = open("domains.txt", 'a')
@@ -90,7 +95,6 @@ links.append(prefx + raw_input('>' + prefx + ""))
 start_time = time.time()
 q = Queue.Queue()
 while len(links):
-    print str(len(threads))
     for link in links:
         t = threading.Thread(target=threadDist, args=(q, link))
         threads.append(t)
