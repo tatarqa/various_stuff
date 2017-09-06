@@ -12,7 +12,7 @@ def help():
 def switcher():
     while True:
         for channel in itr.chain(range(1, 13), range(36,60,4), range(100,144,4), range(149,165,4)):
-            os.popen("sudo iwconfig %s channel %s" % (interface,str(channel)), 'w')
+            os.popen("sudo iwconfig %s channel %s" % (interface, str(channel)), 'w')
             print "[+] Switched to channel " + str(channel)
             time.sleep(.2)
 

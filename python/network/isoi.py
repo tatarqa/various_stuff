@@ -64,7 +64,7 @@ def analyze(freq, pktType, pkt, advset):
             print "%s is looking for %s on channel %d" % (sMac.encode('hex'), ssid, foundChannel)
     else:
         kbody = pkt[FLAGS_END:FLAGS_END + KEYPARAMS]
-        print "key lenght %d"%int(kbody[-2:].encode('hex'), 16)
+        print "key lenght %d"% int(kbody[-2:].encode('hex'), 16)
 
 
 
