@@ -13,8 +13,9 @@ def clear(itm):
     try:
         links.remove(itm)
     except:
-        n = i = c = 1
+        pass
     checked_links.append(itm)
+
 
 
 def gatherLinks(tgt):
@@ -58,8 +59,8 @@ def gatherLinks(tgt):
             domain = parsedLink.netloc
             dots=domain.count('.')
             if dots > 2 or not domain.startswith('www.'):
-                #domain=domain.rsplit('.',2)
-                domain = domain.rsplit('.', 1)
+                domain=domain.rsplit('.',2)
+                #domain = domain.rsplit('.', 1)
                 domain=domain[0]
             if not final_link in links and not final_link in checked_links and not domain in domains and domain.decode('utf-8', 'ignore').endswith('.cz'):
                 links.append(final_link)
@@ -68,7 +69,6 @@ def gatherLinks(tgt):
                 blumba.write(domain.decode('utf-8', 'ignore') + '\n')
                 blumba.close()
     clear(tgt)
-
 
 def threadDist(q, tgt):
     q.put(gatherLinks(tgt))
