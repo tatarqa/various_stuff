@@ -1,7 +1,7 @@
 import mechanize
 import cookielib
 from bs4 import BeautifulSoup
-from hyper import HTTPConnection
+from python.network.hyper import HTTPConnection
 
 
 lajnasss=[]
