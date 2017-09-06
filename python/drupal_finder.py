@@ -3,7 +3,6 @@ import cookielib
 from bs4 import BeautifulSoup
 import threading
 from urlparse import urlparse
-import sys
 import Queue
 import time
 
