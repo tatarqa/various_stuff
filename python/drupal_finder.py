@@ -39,10 +39,10 @@ def do_work(tgt):
                 continue
             else:
                 parsedLink = urlparse(startLink)
-                domain = parsedLink.scheme+'://'+ parsedLink.netloc
-                if not domain in checked_links and domain.endswith('.cz'):
-                    links.append(domain)
-                    domains.append(domain)
+                new_link_domain = parsedLink.scheme+'://'+ parsedLink.netloc
+                if not new_link_domain in checked_links and new_link_domain.endswith('.cz'):
+                    links.append(new_link_domain)
+                    domains.append(new_link_domain)
 
     if dd:
         print domain+', JE DRUPAL'
