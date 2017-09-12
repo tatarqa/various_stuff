@@ -4,7 +4,7 @@ import cookielib
 import Queue
 from bs4 import BeautifulSoup
 from urlparse import urlparse
-import dataset
+#import dataset
 
 
 
@@ -59,12 +59,12 @@ def worker():
             q.task_done()
 q = Queue.Queue()
 links = []
-db = dataset.connect('sqlite:///domeny.db')
-domains_table = db['all_domains']
 domains = []
 drupal_sites = []
 checked_links = []
 for i in range(666):
+    #db = dataset.connect('sqlite:///domeny.db')
+    #domains_table = db['all_domains']
     t = threading.Thread(target=worker, args=())
     t.daemon = True
     t.start()
