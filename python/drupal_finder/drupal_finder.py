@@ -43,13 +43,12 @@ def do_work(tgt):
         if startLink:
             if startLink[:4] != "http":
                 continue
-            else:
-                parsedLink = urlparser(startLink)
-                new_link_domain = parsedLink[2]
-                new_link = ''.join(parsedLink)
-                if not new_link_domain in checked_links and new_link_domain.endswith('.cz'):
-                    links.append(new_link)
-                    domains.append(new_link_domain)
+            parsedLink = urlparser(startLink)
+            new_link_domain = parsedLink[2]
+            new_link = ''.join(parsedLink)
+            if not new_link_domain in checked_links and new_link_domain.endswith('.cz'):
+                links.append(new_link)
+                domains.append(new_link_domain)
 
     if dd:
         print domain + ', JE DRUPAL'
@@ -61,10 +60,7 @@ def worker():
         domain = urlparser(item)[2]
         if not domain in checked_links:
             do_work(item)
-            q.task_done()
-
-        else:
-            q.task_done()
+        q.task_done()
 
 
 q = Queue.Queue()
