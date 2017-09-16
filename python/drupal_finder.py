@@ -8,11 +8,16 @@ from urlparse import urlparse
 
 # import dataset
 
+def urlparser(url):
+    parsedLink = urlparse(url)
+    netloc = parsedLink.netloc
+    if not netloc.startswith('www'):
+        netloc = 'www.' + netloc
+    return parsedLink.scheme, '://', netloc
 
 
 def do_work(tgt):
-    parsedLink = urlparse(tgt)
-    domain = parsedLink.scheme + '://' + parsedLink.netloc
+    domain = urlparser(tgt)[2]
     checked_links.append(domain)
     dd = False
     userAgent = [('User-agent', 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:40.0) Gecko/20100101 Firefox/40.1')]
@@ -39,10 +44,11 @@ def do_work(tgt):
             if startLink[:4] != "http":
                 continue
             else:
-                parsedLink = urlparse(startLink)
-                new_link_domain = parsedLink.scheme + '://' + parsedLink.netloc
+                parsedLink = urlparser(startLink)
+                new_link_domain = parsedLink[2]
+                new_link = ''.join(parsedLink)
                 if not new_link_domain in checked_links and new_link_domain.endswith('.cz'):
-                    links.append(new_link_domain)
+                    links.append(new_link)
                     domains.append(new_link_domain)
 
     if dd:
@@ -52,7 +58,8 @@ def do_work(tgt):
 def worker():
     while True:
         item = q.get()
-        if not item in checked_links:
+        domain = urlparser(item)[2]
+        if not domain in checked_links:
             do_work(item)
             q.task_done()
 
@@ -71,7 +78,6 @@ for i in range(666):
     t = threading.Thread(target=worker, args=())
     t.daemon = True
     t.start()
-
 print "[-] enter 1 for http, enter 2 for https: "
 choice = raw_input(">")
 while 1:
@@ -85,10 +91,9 @@ while 1:
         print "[-] enter 1 for http webpage, enter 2 for https: "
         choice = raw_input(">")
 print "\n[-] enter domain name e.g. %sgoogle.com" % prefx
-
 links.append(prefx + raw_input('>' + prefx + ""))
-
 while 1:
     for item in links:
-        if item not in checked_links:
+        domain = urlparser(item)[2]
+        if domain not in checked_links:
             q.put(item)
