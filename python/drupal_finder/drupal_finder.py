@@ -11,12 +11,12 @@ from urlparse import urlparse
 def urlparser(url):
     parsedLink = urlparse(url)
     netloc = parsedLink.netloc
-    if not netloc.startswith('www'):
-        netloc = 'www.' + netloc
+    if netloc.startswith('www'):
+        netloc = netloc[4:]
     return parsedLink.scheme, '://', netloc
 
 
-def do_work(tgt):
+def do_work(tgt, choice2):
     domain = urlparser(tgt)[2]
     checked_links.append(domain)
     dd = False
@@ -46,12 +46,18 @@ def do_work(tgt):
             parsedLink = urlparser(startLink)
             new_link_domain = parsedLink[2]
             new_link = ''.join(parsedLink)
-            if not new_link_domain in checked_links and new_link_domain.endswith('.cz'):
-                links.append(new_link)
-                domains.append(new_link_domain)
-
+            if choice2 is not '':
+                if choice2.startswith('.'):
+                    choice2=choice2[1:]
+                if not new_link_domain in checked_links and new_link_domain.endswith(choice2):
+                    links.append(new_link)
+                    domains.append(new_link_domain)
+            else:
+                if not new_link_domain in checked_links:
+                    links.append(new_link)
+                    domains.append(new_link_domain)
     if dd:
-        print domain + ', JE DRUPAL'
+        print domain + ' DRUPAL'
 
 
 def worker():
@@ -59,7 +65,7 @@ def worker():
         item = q.get()
         domain = urlparser(item)[2]
         if not domain in checked_links:
-            do_work(item)
+            do_work(item, choice2)
         q.task_done()
 
 
@@ -75,19 +81,22 @@ for i in range(666):
     t.daemon = True
     t.start()
 print "[-] enter 1 for http, enter 2 for https: "
-choice = raw_input(">")
+choice = raw_input("[>] ")
 while 1:
     if choice == '1':
-        prefx = 'http://www.'
+        prefx = 'http://'
         break
     elif choice == '2':
-        prefx = 'https://www.'
+        prefx = 'https://'
         break
     else:
         print "[-] enter 1 for http webpage, enter 2 for https: "
-        choice = raw_input(">")
+        choice = raw_input("[>] ")
 print "\n[-] enter domain name e.g. %sgoogle.com" % prefx
-links.append(prefx + raw_input('>' + prefx + ""))
+links.append(prefx + raw_input('[>] ' + prefx + ""))
+print "[-] limit top level domains? enter top level domain e.g. ru\n[-] Leave blank for no filtering."
+choice2 = raw_input("[>] ")
+print '[+] OK'
 while 1:
     for item in links:
         domain = urlparser(item)[2]
