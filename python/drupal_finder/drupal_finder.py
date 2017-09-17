@@ -13,6 +13,10 @@ def urlparser(url):
     netloc = parsedLink.netloc
     if netloc.startswith('www'):
         netloc = netloc[4:]
+    else:
+        dots = netloc.count('.')
+        if dots > 1:
+            netloc='.'.join(netloc.rsplit('.', dots)[dots-1:]) #TODO co.uk etc
     return parsedLink.scheme, '://', netloc
 
 
@@ -47,8 +51,6 @@ def do_work(tgt, choice2):
             new_link_domain = parsedLink[2]
             new_link = ''.join(parsedLink)
             if choice2 is not '':
-                if choice2.startswith('.'):
-                    choice2=choice2[1:]
                 if not new_link_domain in checked_links and new_link_domain.endswith(choice2):
                     links.append(new_link)
                     domains.append(new_link_domain)
