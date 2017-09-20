@@ -72,7 +72,6 @@ for f in os.listdir(cssMod):
                                 wantedStyleTx += wantedStyleValue + ";"
                                 radek = radek + wantedStyleTx
                     else:
-                        print("jetovpicijequery JAK Z TOHO VEN")
                         skippedContent += radek + '\n'
                         if mediaQueryEnded.search(skippedContent) or mediaQueyIsEmpty.search(skippedContent):
                             currentCssIsUnderMediaQuery = False

