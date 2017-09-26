@@ -1,23 +1,22 @@
-oklist=[]
-sourcelist=[]
+oklist = []
+sourcelist = []
+
 
 def main():
-    d = 1
-    for c in range(1, 21):
-        d *= c
-    sourcelist.append(d)
-
-
+    initial_number = 1
+    for n in range(1, 21):
+        initial_number *= n
+    sourcelist.append(initial_number)
     a = 1
     while a:
-        for item in sourcelist:
-            a = isok_provider(item)
-            print item
+        for n in sourcelist:
+            a = isok_provider(n)
+            print n
 
 
 def isok_provider(nr):
     for n in range(1, 21):
-        isok(nr/n)
+        isok(nr / n)
 
 
 def isok(nr):
@@ -29,7 +28,5 @@ def isok(nr):
     sourcelist.append(nr)
     oklist.append(nr)
 
+
 main()
-
-
-
