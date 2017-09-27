@@ -22,7 +22,7 @@ def isok_provider(nr):
 def isok(nr):
     for n in range(1, 21):
         if nr % n != 0:
-            return
+            return True
     if nr in oklist:
         return False
     sourcelist.append(nr)
