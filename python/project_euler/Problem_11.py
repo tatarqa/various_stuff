@@ -72,6 +72,7 @@ def main():
             row.append(item)
         lists.append([row])
 
+        
     WIDTH = 4
     iter_list = []
     for i, item in enumerate(lists):

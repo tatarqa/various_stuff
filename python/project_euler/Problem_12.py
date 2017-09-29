@@ -9,7 +9,6 @@ def solve(N):
                     zbytek = x / factor
                     if not factor in row:
                         row.append(factor)
-
                     if not zbytek in row:
                         row.append(zbytek)
 
