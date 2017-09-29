@@ -1,33 +1,33 @@
-def verticalSum(obj, WIDTH, list1, list2, list3):
-    for i, itom in enumerate(obj):
+def verticalSum(obj, WIDTH, prevlists):
+    for i, item in enumerate(obj):
         diagonal_left_sum = 1
         diagonal_right_sum = 1
         vertical_sum = 1
         if i >= WIDTH - 1:
-            sequence_list = [int(itom), int(list1[i - 1]), int(list2[i - 2]), int(list3[i - 3])]
-            for nr in sequence_list:
-                diagonal_left_sum *= nr
+            for c, row in enumerate((prevlists), start=1):
+                diagonal_left_sum *= int(row[i - c])
+            diagonal_left_sum *= int(item)
             yield diagonal_left_sum
 
         if i < len(obj) - (WIDTH - 1):
-            sequence_list = [int(itom), int(list1[i + 1]), int(list2[i + 2]), int(list3[i + 3])]
-            for nr in sequence_list:
-                diagonal_right_sum *= nr
+            for c, row in enumerate((prevlists), start=1):
+                diagonal_right_sum *= int(row[i + c])
+            diagonal_right_sum *= int(item)
             yield diagonal_right_sum
 
-        sequence_list = [int(itom), int(list1[i]), int(list2[i]), int(list3[i])]
-        for nr in sequence_list:
-            vertical_sum *= nr
+        for c, row in enumerate((prevlists), start=1):
+            vertical_sum *= int(row[i])
+        vertical_sum *= int(item)
         yield vertical_sum
 
 
 def horizontalSum(obj, WIDTH):
-    for i, itom in enumerate(obj):
+    for i, item in enumerate(obj):
         row_left_range_sum = 1
         row_right_range_sum = 1
         if i >= WIDTH - 1:
             sequence_list = []
-            sequence_list.append(int(itom))
+            sequence_list.append(int(item))
             for d in range(1, WIDTH):
                 sequence_list.append(int(obj[i - d]))
             for nr in sequence_list:
@@ -35,7 +35,7 @@ def horizontalSum(obj, WIDTH):
             yield row_left_range_sum
         if i < len(obj) - (WIDTH - 1):
             sequence_list = []
-            sequence_list.append(int(itom))
+            sequence_list.append(int(item))
             for d in range(1, WIDTH):
                 sequence_list.append(int(obj[i + d]))
             for nr in sequence_list:
@@ -72,16 +72,15 @@ def main():
             row.append(item)
         lists.append([row])
 
-        
     WIDTH = 4
     iter_list = []
     for i, item in enumerate(lists):
         if i >= WIDTH - 1:
-            prevlist_3 = lists[i - 3][0]
-            prevlist_2 = lists[i - 2][0]
-            prevlist_1 = lists[i - 1][0]
-            iter_list.append(list(verticalSum(item[0], 4, prevlist_1, prevlist_2, prevlist_3)))
-        iter_list.append(horizontalSum(item[0], 4))
+            prevlists = []
+            for d in range(1, WIDTH):
+                prevlists.append(lists[i - d][0])
+            iter_list.append(list(verticalSum(item[0], WIDTH, prevlists)))
+        iter_list.append(horizontalSum(item[0], WIDTH))
 
     highestnr = 0
     for item in iter_list:
