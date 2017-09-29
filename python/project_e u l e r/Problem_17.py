@@ -54,5 +54,4 @@ for i in range(1, NRS_RANGE + 1):
     for word in nr_to_word(i):
         final_sequence += word
         print word
-print final_sequence
 print len(final_sequence)
