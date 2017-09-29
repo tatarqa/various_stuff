@@ -4,30 +4,18 @@ def verticalSum(obj, width, list1, list2, list3):
         diagonal_right_sum = 1
         vertical_sum = 1
         if i >= width - 1:
-            sequence_list = []
-            sequence_list.append(int(itom))
-            sequence_list.append(int(list1[i - 1]))
-            sequence_list.append(int(list2[i - 2]))
-            sequence_list.append(int(list3[i - 3]))
+            sequence_list = [int(itom), int(list1[i - 1]), int(list2[i - 2]), int(list3[i - 3])]
             for nr in sequence_list:
                 diagonal_left_sum *= nr
             yield diagonal_left_sum
 
         if i < len(obj) - (width - 1):
-            sequence_list = []
-            sequence_list.append(int(itom))
-            sequence_list.append(int(list1[i + 1]))
-            sequence_list.append(int(list2[i + 2]))
-            sequence_list.append(int(list3[i + 3]))
+            sequence_list = [int(itom), int(list1[i + 1]), int(list2[i + 2]), int(list3[i + 3])]
             for nr in sequence_list:
                 diagonal_right_sum *= nr
             yield diagonal_right_sum
 
-        sequence_list = []
-        sequence_list.append(int(itom))
-        sequence_list.append(int(list1[i]))
-        sequence_list.append(int(list2[i]))
-        sequence_list.append(int(list3[i]))
+        sequence_list = [int(itom), int(list1[i]), int(list2[i]), int(list3[i])]
         for nr in sequence_list:
             vertical_sum *= nr
         yield vertical_sum
