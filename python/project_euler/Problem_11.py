@@ -1,15 +1,15 @@
-def verticalSum(obj, width, list1, list2, list3):
+def verticalSum(obj, WIDTH, list1, list2, list3):
     for i, itom in enumerate(obj):
         diagonal_left_sum = 1
         diagonal_right_sum = 1
         vertical_sum = 1
-        if i >= width - 1:
+        if i >= WIDTH - 1:
             sequence_list = [int(itom), int(list1[i - 1]), int(list2[i - 2]), int(list3[i - 3])]
             for nr in sequence_list:
                 diagonal_left_sum *= nr
             yield diagonal_left_sum
 
-        if i < len(obj) - (width - 1):
+        if i < len(obj) - (WIDTH - 1):
             sequence_list = [int(itom), int(list1[i + 1]), int(list2[i + 2]), int(list3[i + 3])]
             for nr in sequence_list:
                 diagonal_right_sum *= nr
@@ -21,22 +21,22 @@ def verticalSum(obj, width, list1, list2, list3):
         yield vertical_sum
 
 
-def horizontalSum(obj, width):
+def horizontalSum(obj, WIDTH):
     for i, itom in enumerate(obj):
         row_left_range_sum = 1
         row_right_range_sum = 1
-        if i >= width - 1:
+        if i >= WIDTH - 1:
             sequence_list = []
             sequence_list.append(int(itom))
-            for d in range(1, width):
+            for d in range(1, WIDTH):
                 sequence_list.append(int(obj[i - d]))
             for nr in sequence_list:
                 row_left_range_sum *= nr
             yield row_left_range_sum
-        if i < len(obj) - (width - 1):
+        if i < len(obj) - (WIDTH - 1):
             sequence_list = []
             sequence_list.append(int(itom))
-            for d in range(1, width):
+            for d in range(1, WIDTH):
                 sequence_list.append(int(obj[i + d]))
             for nr in sequence_list:
                 row_right_range_sum *= nr
@@ -72,10 +72,10 @@ def main():
             row.append(item)
         lists.append([row])
 
-    width = 4
+    WIDTH = 4
     iter_list = []
     for i, item in enumerate(lists):
-        if i >= width - 1:
+        if i >= WIDTH - 1:
             prevlist_3 = lists[i - 3][0]
             prevlist_2 = lists[i - 2][0]
             prevlist_1 = lists[i - 1][0]
