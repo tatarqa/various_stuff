@@ -16,6 +16,6 @@ def sqrroot():
 
 
 for i, number in enumerate(sqrroot(), start=1):
-    print i, '[]', number
     if i == 10001:
+        print i
         break
