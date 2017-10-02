@@ -27,7 +27,6 @@ skippedContent = ""
 htmlFontSize = 16
 pepper = "xzlt"
 fileEncoding = 'Windows-1252'
-
 mediaQueryEnded = re.compile(r'(}[ \t\n\r\f\v]+})')  # todo
 mediaQueyIsEmpty = re.compile(r'@.*({[ \t\n\r\f\v]+})')
 currentCssIsUnderMediaQuery = False

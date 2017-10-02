@@ -1,7 +1,7 @@
 import glob
 import sys
 from sys import platform
-import os, stat
+import os
 import random
 from itertools import islice
 import time
