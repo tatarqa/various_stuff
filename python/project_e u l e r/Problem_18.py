@@ -26,37 +26,39 @@ def analyze_input(start_routes):
     data_list = []
     load_input(data_list)
     final_routes = ()
-    for data_row in data_list:
+    for c,data_row in enumerate(data_list):
         found = False
         d = 0
         for line in get_n_highest_numbers(data_row):
             highest_numbers = line
         while found != True:
-            number = data_row[d]
+            if d < len(data_row):
+                number = data_row[d]
+            else:
+                print 'FAIL'
+                return False
             if number in highest_numbers:
                 if final_routes is not ():
                     if final_routes[1] < d:
                         print 'FAIL'
-                        return (False)
-                        # TODO repeat the script using different values
+                        return False
+                        # TODO run script with second possible value on current line -1, if fail repeat
 
                     if final_routes[1] in range(d - 1, d):
                         final_routes = (number, d)
-                        print number
                         found = True
                 else:
                     if start_routes != ():
                         if (number, d) not in start_routes:
                             final_routes = (number, d)
                             start_routes.append(final_routes)
-                            print number
+
                             found = True
                     else:
                         final_routes = (number, d)
                         start_routes.append(final_routes)
-                        print number
                         found = True
-            if d == len(data_list):
+            if c == len(data_list) and found is True:
                 return True
             d += 1
 
@@ -64,10 +66,10 @@ def analyze_input(start_routes):
 def main():
     not_finished = True
     first_routes = []
-    first_result = analyze_input(first_routes)
+    result = analyze_input(first_routes)
     while not_finished is True:
-        if first_result == False:
-            first_result = analyze_input(first_routes)
+        if not result:
+            result = analyze_input(first_routes)
         else:
             not_finished = False
 
