@@ -23,7 +23,7 @@ def load_input():
 
 def sumarize():
     sum = 0
-    final_list = sorted(list(load_input()), key=lambda tup: tup[0])#not ok ?
+    final_list = sorted(list(load_input()), key=lambda tup: tup[0])
     for i, line in enumerate((final_list), start=1):
         sum += i * line[1]
     return sum
