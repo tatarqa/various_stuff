@@ -8,13 +8,8 @@ def factorize(nr):
 
 
 def count_paths(N):
-    N *= 2
-    if N % 2 == 0:
-        part = N / 2
-    else:
-        part = N / 3
-    n = factorize(N)
-    r = factorize(part) * factorize(N - part)
+    n = factorize(N * 2)
+    r = factorize(N) * factorize(N)
     return n / r
 
 
