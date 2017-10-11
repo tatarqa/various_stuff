@@ -18,8 +18,6 @@ def analyze_input():
     load_input(data_list)
     for ri, row in enumerate(data_list):
         for ni, nr in enumerate(row[:-1]):  # ignore last item in a row for it was calculated in previous round
-            if ni == len(row) - 1:
-                break
             if ni < len(row) - 1:
                 index_add = 0
                 if nr > row[ni + 1]:
