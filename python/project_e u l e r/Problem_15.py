@@ -9,7 +9,7 @@ def factorize(nr):
 
 def count_paths(N):
     n = factorize(N * 2)
-    r = factorize(N) * factorize(N)
+    r = factorize(N) ** 2
     return n / r
 
 
