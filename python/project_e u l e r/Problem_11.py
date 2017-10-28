@@ -72,7 +72,7 @@ def main():
             row.append(item)
         lists.append([row])
 
-    WIDTH = 19
+    WIDTH = 4
     iter_list = []
     for i, item in enumerate(lists):
         if i >= WIDTH - 1:

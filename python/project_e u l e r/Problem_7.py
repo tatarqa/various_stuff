@@ -17,5 +17,5 @@ def sqrroot():
 
 for i, number in enumerate(sqrroot(), start=1):
     if i == 10001:
-        print i
+        print number
         break

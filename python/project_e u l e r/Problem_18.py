@@ -1,5 +1,5 @@
 def load_input(data_list):
-    with open("Problem_67_input.txt", 'r') as input_file:
+    with open("Problem_18_input.txt", 'r') as input_file:
         for line in reversed(input_file.readlines()):
             text_block = ''
             row = []
