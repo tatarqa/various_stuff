@@ -5,6 +5,13 @@ sys.setrecursionlimit(1200)
 
 class Problem_26(object):
     def solution(self, dividend, divisor, longest_seq):
+        """
+
+        :param dividend :type INT:
+        :param divisor :type INT:
+        :param longest_seq :type TUP(divisor,longest recurring sequence length):
+        :return longest_seq:
+        """
         vysledek = ''
         remainders = []
         seq = []
@@ -12,7 +19,6 @@ class Problem_26(object):
         seq_len = 1
         seq_found = False
         remainder = 1
-        # longest recurring sequence
         while 1:
             a, remainder = divmod(remainder * 10, divisor)
             if remainder in remainders:
