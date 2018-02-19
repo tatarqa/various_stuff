@@ -25,6 +25,9 @@ class PsqlTools:
         self.con = psycopg2.connect(f"dbname='{PSQL_DEFAULT_DB}' user='{PSQL_USER_NAME}' host='{PSQL_HOST}' password='{PSQL_PW}'")
         
 
+    def clear_config(self, cfg_name):
+        del self.configs[cfg_name]
+
 
     def create_user(self):
         
@@ -45,15 +48,28 @@ class PsqlTools:
         for command in commands.strip().splitlines():
             cur.execute(command)
         cur.close()
+        clear_config('create_user')
 
+
+    def delete_db(self):
+        DB_TO_DROP = self.configs['drop_db']
+        self.con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
+        cur = self.con.cursor()
+        cur.execute(f"DROP DATABASE {next(iter(DB_TO_DROP))};")
+        cur.close()
+        clear_config('drop_db')
 
     
 
 if __name__ == '__main__':
     tooler=PsqlTools()
-    args=()
+
     tooler.config_entity(conf_name='conect_to_db',sqlparams=['PSQL_DEFAULT_DB_NAME','PSQL_USER_NAME','PSQL_HOST','PSQL_PW'])
     tooler.conect_to_db()
 
     tooler.config_entity(conf_name='create_user',sqlparams=['NEW_DB_NAME','NEW_USER_NAME','NEW_USER_PW'])
     tooler.create_user()
+
+    tooler.config_entity(conf_name='drop_db',sqlparams=['DB_TO_DROP'])
+    tooler.delete_db()
+    
