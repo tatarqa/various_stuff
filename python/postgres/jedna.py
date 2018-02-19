@@ -9,12 +9,13 @@ class PsqlTools:
         self.configs=configs
 
 
-    def config_entity(self,argz):
+    def config_entity(self,**kwargs):
 
-        conf_name,arguments=argz
+        conf_name = kwargs['conf_name']
+        arguments = kwargs['sqlparams']
         self.configs[conf_name] = []
-        print(f'\n[*]Config - {conf_name}')
-          for arg in arguments:
+        print(f'\n[*]Config for - {conf_name}')
+        for arg in arguments:
             self.configs[conf_name].append(input(f'[*]{arg} -> '))
 
 
@@ -25,9 +26,9 @@ class PsqlTools:
         
 
 
-    def create_user_and_db(self):
+    def create_user(self):
         
-        NEW_DB_NAME,NEW_USER_NAME,NEW_USER_PW = self.configs['create_user_args']
+        NEW_DB_NAME,NEW_USER_NAME,NEW_USER_PW = self.configs['create_user']
         commands = (
             f"""
             CREATE DATABASE {NEW_DB_NAME};
@@ -50,12 +51,9 @@ class PsqlTools:
 
 if __name__ == '__main__':
     tooler=PsqlTools()
-    #conect to db
-    args=('conect_to_db',['PSQL_DEFAULT_DB_NAME','PSQL_USER_NAME','PSQL_HOST','PSQL_PW'])
-    tooler.config_entity(args)
+    args=()
+    tooler.config_entity(conf_name='conect_to_db',sqlparams=['PSQL_DEFAULT_DB_NAME','PSQL_USER_NAME','PSQL_HOST','PSQL_PW'])
     tooler.conect_to_db()
 
-    #create user/perm/db
-    args=('create_user_args',['NEW_DB_NAME','NEW_USER_NAME','NEW_USER_PW'])
-    tooler.config_entity(args)
-    tooler.create_user_and_db()
+    tooler.config_entity(conf_name='create_user',sqlparams=['NEW_DB_NAME','NEW_USER_NAME','NEW_USER_PW'])
+    tooler.create_user()
