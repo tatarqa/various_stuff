@@ -1,4 +1,5 @@
 from __future__ import absolute_import, unicode_literals
+
 # ^^^ The above is required if you want to import from the celery
 # library.  If you don't have this then `from celery.schedules import`
 # becomes `proj.celery.schedules` in Python 2.x since it allows
@@ -6,12 +7,12 @@ from __future__ import absolute_import, unicode_literals
 
 # Celery settings
 
-CELERY_BROKER_URL = 'amqp://guest:guest@localhost//'
+CELERY_BROKER_URL = 'redis://localhost:6379:7'
 
 #: Only add pickle to this list if your broker is secured
 #: from unwanted access (see userguide/security.html)
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_RESULT_BACKEND = 'db+sqlite:///results.sqlite'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379:8'
 CELERY_TASK_SERIALIZER = 'json'
 
 # Django settings for proj project.
@@ -20,7 +21,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('admin', 'your_email@example.com'),
 )
 
 MANAGERS = ADMINS
@@ -28,13 +29,13 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test.db',  # path to database file if using sqlite3.
-        'USER': '',        # Not used with sqlite3.
-        'PASSWORD': '',    # Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'jednicka',  # path to database file if using sqlite3.
+        'USER': 'jednicka',        # Not used with sqlite3.
+        'PASSWORD': 'jednicka',    # Not used with sqlite3.
         'HOST': '',        # Set to empty string for localhost.
                            # Not used with sqlite3.
-        'PORT': '',        # Set to empty string for default.
+        'PORT': '5432',        # Set to empty string for default.
                            # Not used with sqlite3.
     }
 }
@@ -107,13 +108,13 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
-    # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'proj.urls'
