@@ -6,19 +6,37 @@ import os
 
 #urls = [f'https://wikileaks.org/clinton-emails/emailid/{i}' for i in range(1,99999)]
 urls = [
-    f'https://wikileaks.org/clinton-emails/emailid/{i}' for i in range(1, 5)]
+    f'https://wikileaks.org/clinton-emails/emailid/{i}' for i in range(1, 50)]
 
 import random
 import time
-async def paprik():
-    time.sleep(6)
-    while 1: 
-        print ('hwmsnhhh')
-        if random.randint(1,5)==2: break
-ppp=asyncio.gather(paprik())
-print (666)
 
-async def fetch(url, loop):
+
+''' @coroutine
+def copaprik(fut, *args):
+    if fut.cancelled():
+        return
+    yield from fut '''
+
+
+async def paprik(futureSs, *args):
+    time.sleep(5)
+    print(args[0])
+
+loopah = asyncio.get_event_loop()
+futureSs = asyncio.Future()
+
+for i in range(1, 6):
+
+    for k in range(5):
+        loopah.create_task(paprik(futureSs, i*k))
+
+loopah.run_until_complete(futureSs)
+loopah.close()
+
+print(666)
+
+''' async def fetch(url, loop):
     async with aiohttp.ClientSession(loop=loop) as session:
         try:
             async with session.get(url, allow_redirects=False, timeout=10) as response:
@@ -47,4 +65,4 @@ async def main(loop):
             htmlOutput.write(responseDocument)
 
 loop = asyncio.get_event_loop()
-loop.run_until_complete(main(loop))
+loop.run_until_complete(main(loop)) '''
