@@ -15,8 +15,6 @@ async def fetch(url, loop):
         try:
             async with session.get(url, allow_redirects=False, timeout=10) as response:
                 if response.status == 200:
-                        # TOU DOU
-                    #duration = (end_time - start_time) * 1000
                     responseDocument = await response.read()
                     return (url, responseDocument.decode('utf-8'))
                 else:
