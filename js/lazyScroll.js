@@ -84,3 +84,67 @@ window.addEventListener("load", function (event) {
         },
     })
 });
+<HTML example>
+    <div id="lazy_load">
+        <section id="xx">
+                <aside id="topH">
+                        <div class="ovrl abso"></div>
+                        <div class="bg abso"></div>
+                        <div class="sloupec">
+                                <div class="topText">
+                                        <h1>xxx</h1>
+                                </div>
+                        </div>
+                </aside>
+                <aside id="mainC" class="cont">
+                        <div v-observe-visibility="visibilityChanged" class="contactRow cols fboxAuto spaceb vCntr">
+                                <div class="sstmdoL imgcol animated">
+                                         <img src="images/img.jpg">
+                                </div>
+                                <div class="sstmdoR">
+                                        <div class="txcol animated">
+                                                <p>bla</p>
+                                        </div>
+                                </div>
+                        </div>
+                        <div v-observe-visibility="visibilityChanged" class="contactRow cols fboxAuto spaceb vCntr">
+                                <div class="sstmdoL">
+                                        <div class="txcol animated">
+                                               <p>bla</p>
+                                        </div>
+                                </div>
+                                <div class="sstmdoR imgcol animated">
+                                        <img src="images/img.jpg">
+                                </div>
+                        </div>
+                        <div v-observe-visibility="visibilityChanged" class="contactRow cols fboxAuto spaceb vCntr">
+                                <div class="sstmdoL imgcol animated">
+                                        <img src="images/img.jpg">
+                                </div>
+                                <div class="sstmdoR">
+                                        <div class="txcol animated">
+                                                <p>bla</p>
+                                        </div>
+                                </div>
+                        </div>
+                </aside>
+        </section>
+</div>
+</html>
+<CSS EXAMPLE>
+    #lazy_load {
+	overflow: hidden;
+}
+
+.animated {
+	visibility: hidden;
+}
+ .imgcol.animated {
+	 animation-delay: .4s;
+		animation-duration: .4s;
+} 
+
+.txcol.animated {
+	animation-duration: 1s;
+} 
+    </CSS>
