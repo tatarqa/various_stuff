@@ -1,5 +1,0 @@
-django
-sqlalchemy
-celery
-psycopg2
-django-celery-beat
